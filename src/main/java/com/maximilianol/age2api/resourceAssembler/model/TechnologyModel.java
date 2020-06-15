@@ -20,31 +20,29 @@ import org.springframework.hateoas.server.core.Relation;
  *
  * @author zaktorius
  */
-@Data
 @Builder
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-@Relation(collectionRelation = "structures")
-@JsonRootName("structure")
+@NoArgsConstructor
+@JsonRootName("technology")
+@Relation(collectionRelation="technologies")
 @JsonInclude(Include.NON_NULL)
-public class StructureModel extends RepresentationModel<StructureModel>{
+public class TechnologyModel extends RepresentationModel<TechnologyModel> {
     private Long id;
     
     private String name;
-    private String expansion;
+    
+    private String expansion;    
     private String age;
     
+    private StructureModel develops_in;
+    
     private List<ResourceModel> resources;
-    private List<UnitModel> units;
-    private List<TechnologyModel> techs;
     
     private String build_time;
-    private String hit_points;
-    private String line_of_sight;
-    private String armor;
-    private String range;
-    private String reload_time;
-    private String attack;
-    private String special;
+    
+    private String applies_to;
+    
+    private String description;
     
 }

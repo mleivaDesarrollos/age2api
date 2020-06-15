@@ -8,6 +8,10 @@ package com.maximilianol.age2api.resourceAssembler;
 import com.maximilianol.age2api.controller.UnitController;
 import com.maximilianol.age2api.domain.Unit;
 import com.maximilianol.age2api.resourceAssembler.model.UnitModel;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -66,6 +70,13 @@ public class UnitResourceAssembler extends RepresentationModelAssemblerSupport<U
         model.setName(entity.getName());
         model.add(linkTo(methodOn(UnitController.class).one(entity.getId())).withSelfRel());
         return model;
+    }
+    
+    public List<UnitModel> toSimpleListModel(List<Unit> units) {
+        if (units == null) return Collections.emptyList();
+        List<UnitModel> unitsModel = new ArrayList<>();
+        units.forEach(unit -> unitsModel.add(toSimpleModel(unit)));
+        return unitsModel;
     }
     
     @Override

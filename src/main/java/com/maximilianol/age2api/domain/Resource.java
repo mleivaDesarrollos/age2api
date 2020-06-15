@@ -43,6 +43,9 @@ public class Resource {
     @ManyToOne(fetch = FetchType.LAZY)
     private Structure structure;
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Technology technology;
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

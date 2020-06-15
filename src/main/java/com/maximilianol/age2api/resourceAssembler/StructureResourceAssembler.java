@@ -8,6 +8,7 @@ package com.maximilianol.age2api.resourceAssembler;
 import com.maximilianol.age2api.controller.StructureController;
 import com.maximilianol.age2api.domain.Structure;
 import com.maximilianol.age2api.resourceAssembler.model.StructureModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
@@ -19,6 +20,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class StructureResourceAssembler extends RepresentationModelAssemblerSupport<Structure, StructureModel>{
+    @Autowired
+    private UnitResourceAssembler unitAssembler;
+    
+    @Autowired
+    private TechnologyResourceAssembler techAssembler;
+    
     public StructureResourceAssembler() {
         super(StructureController.class, StructureModel.class);
     }
@@ -35,6 +42,8 @@ public class StructureResourceAssembler extends RepresentationModelAssemblerSupp
         model.setAge(entity.getAge());
 
         model.setResources(ResourceResourceAssembler.toResourcesModel(entity.getResources()));
+        model.setUnits(unitAssembler.toSimpleListModel(entity.getUnits()));
+        model.setTechs(techAssembler.toSimpleSetModel(entity.getTechnologies()));
 
         model.setBuild_time(entity.getBuild_time());
         model.setHit_points(entity.getHit_points());

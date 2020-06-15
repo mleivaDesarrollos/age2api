@@ -29,60 +29,51 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "unit")
-public class Unit {
+@NoArgsConstructor
+@Table(name = "technology")
+public class Technology {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     private String name;
-    private String description;
-    private String expansion;
+    
+    private String expansion;    
     private String age;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Structure created_in;
+    @ManyToOne (fetch = FetchType.LAZY)
+    private Structure develops_in;
     
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "unit")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "technology")
     private List<Resource> resources = new ArrayList<>();
     
-    private String cost;
     private String build_time;
-    private String reload_time;
-    private String attack_delay;
-    private String movement_rate;
-    private String line_of_sight;
-    private String hit_points;
-    private String range;
-    private String attack;
-    private String armor;
-    private String attack_bonus;
-    private String armor_bonus;
-    private String search_radius;
-    private String accuracy;
-    private String blast_radius;
+    
+    private String applies_to;
+    
+    private String description;
     
     public void addResource(Resource resource) {
-        resources.add(resource);
-        resource.setUnit(this);
+        this.getResources().add(resource);
+        resource.setTechnology(this);
     }
     
     public void removeResource(Resource resource) {
-        resources.remove(resource);
-        resource.setUnit(null);
+        this.getResources().remove(resource);
+        resource.setTechnology(null);
     }
     
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Unit)) return false;
-        return id != null && id.equals(((Unit) o).getId());
+        if(o == this) return true;
+        if(!(o instanceof Technology)) return false;
+        return id != null && id.equals(((Technology) o).getId());
     }
     
     @Override
     public int hashCode() {
-        return HashCodes.UNIT;
+        return HashCodes.TECHNOLOGY;
     }
 }

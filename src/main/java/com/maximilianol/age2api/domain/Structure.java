@@ -7,7 +7,9 @@ package com.maximilianol.age2api.domain;
 
 import com.maximilianol.age2api.HashCodes;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +30,7 @@ import lombok.ToString;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude="resources")
+@ToString(exclude={"resources", "units", "technologies"})
 @Table(name = "structure")
 public class Structure {
     @Id
@@ -50,6 +52,22 @@ public class Structure {
     private String reload_time;
     private String attack;
     private String special;
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "created_in")
+    private List<Unit> units = new ArrayList<>();
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "develops_in")
+    private Set<Technology> technologies = new HashSet<>();
+    
+    public void addUnit(Unit unit) {
+        this.getUnits().add(unit);
+        unit.setCreated_in(this);
+    }
+    
+    public void removeUnit(Unit unit) {
+        this.getUnits().remove(unit);
+        unit.setCreated_in(null);
+    }
     
     public void addResource(Resource resource) {
         resources.add(resource);

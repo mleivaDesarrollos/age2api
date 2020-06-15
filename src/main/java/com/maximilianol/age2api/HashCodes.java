@@ -15,4 +15,6 @@ public class HashCodes {
     public static int STRUCTURE = 41;
     
     public static int UNIT = 42;
+    
+    public static int TECHNOLOGY = 43;
 }
